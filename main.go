@@ -2,10 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/rodneyxr/gofileflow/filestructure"
+	"./filestructure"
+	"os"
 )
 
 func main() {
-	fs := filestructure.FileStruct{"testing"}
-	fmt.Println(fs.String())
+	fs, err := filestructure.NewFileStruct("root")
+	check(err)
+
+	fmt.Println(fs)
+}
+
+func check(err error) {
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
 }
