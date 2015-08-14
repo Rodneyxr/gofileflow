@@ -12,6 +12,7 @@ type FileStruct struct {
 }
 
 // returns a new FileStruct type
+// FIXME: strip whitespace from the name
 func NewFileStruct(name string) (*FileStruct, error) {
 	if name == "" || name == "." || name == ".." {
 		return nil, errors.New("FileStruct: Invalid file name.")

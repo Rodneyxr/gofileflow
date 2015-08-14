@@ -11,9 +11,11 @@ func main() {
 	check(err)
 	fs.Print()
 
-	fp, err := filestructure.NewDirectory("./dir1/dir2/dir2/\\")
+	fp, err := filestructure.NewDirectory("./dir1/dir2/dir2/")
 	check(err)
 	fmt.Println(fp)
+	pathtofp := fp.PathToFile()
+	fmt.Println(pathtofp)
 }
 
 func check(err error) {
