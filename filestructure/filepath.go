@@ -3,6 +3,7 @@ package filestructure
 import (
 	"path/filepath"
 	"strings"
+	"regexp"
 )
 
 type FilePath struct {
@@ -11,9 +12,9 @@ type FilePath struct {
 }
 
 // Creates a new FilePath. If the filepath ends with a '/' it will be marked as a directory.
-// FIXME: strip whitespace from the name
 func NewFilePath(path string) (*FilePath, error) {
 	fp := new(FilePath)
+	path = strings.TrimSpace(path)
 	path = strings.Replace(path, `\`, `/`, -1)
 	fp.filepath = strings.TrimRight(path, `/`)
 	if fp.filepath != path {
@@ -28,23 +29,27 @@ func NewDirectory(path string) (*FilePath, error) {
 	return NewFilePath(path + "/")
 }
 
-// TODO: PathToFile() FilePath
 func (fp *FilePath) PathToFile() *FilePath {
-	//if fp.isdir {
-		//return fp
-	//}
 	path, err := NewFilePath(filepath.Dir(fp.filepath))
 	if err != nil { return nil }
 	return path
 }
 
-// TODO: Tokenize() string[]
-// TODO: FileName() string
+func (fp *FilePath) Tokens() []string {
+	return regexp.MustCompile(`/|\\`).Split(fp.filepath, -1)
+}
 
+// returns the last file in the path
+func (fp *FilePath) FileName() string {
+	return filepath.Base(fp.filepath)
+}
+
+// returns true if the filepath points to a directory
 func (fp *FilePath) IsDir() bool {
 	return fp.isdir
 }
 
+// return a string representing the full path
 func (fp *FilePath) FilePath() string {
 	return fp.filepath
 }

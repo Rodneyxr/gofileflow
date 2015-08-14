@@ -2,6 +2,7 @@ package filestructure
 
 import (
 	"errors"
+	"strings"
 	"fmt"
 )
 
@@ -12,8 +13,8 @@ type FileStruct struct {
 }
 
 // returns a new FileStruct type
-// FIXME: strip whitespace from the name
 func NewFileStruct(name string) (*FileStruct, error) {
+	name = strings.TrimSpace(name)
 	if name == "" || name == "." || name == ".." {
 		return nil, errors.New("FileStruct: Invalid file name.")
 	}
@@ -29,11 +30,14 @@ func NewFileStruct(name string) (*FileStruct, error) {
 	return fs, nil
 }
 
+// insert a FilePath into the FileStruct creating any directories that do not exist.
+// TODO: implement InsertFilePath
 func (fs *FileStruct) InsertFilePath(fp FilePath) (*FileStruct, error) {
 	return nil, errors.New("FileStruct: not yet implemented.")
 }
 
 // creates all necessary directories to the specified filepath
+// TODO: implement mkdir
 func (fs *FileStruct) mkdir(fp FilePath) (*FileStruct, error) {
 	return nil, errors.New("FileStruct: not yet implemented.")
 }
