@@ -9,8 +9,11 @@ import (
 func main() {
 	fs, err := filestructure.NewFileStruct("root")
 	check(err)
+	fs.Print()
 
-	fmt.Println(fs)
+	fp, err := filestructure.NewDirectory("./dir1/dir2/dir2/\\")
+	check(err)
+	fmt.Println(fp)
 }
 
 func check(err error) {
