@@ -2,27 +2,36 @@ package main
 
 import (
 	"fmt"
-	"./filestructure"
+	fs "./filestructure"
 	"os"
 )
 
+var root *fs.FileStruct
+
 func main() {
-	fs, err := filestructure.NewFileStruct("root")
+	var err error
+
+	root, err = fs.NewDirectoryStruct("root")
 	check(err)
-	fs.Print()
 
-	fp, err := filestructure.NewDirectory("./dir1/dir2/dir2/")
+	insert("hello world")
+	insert("dir1/dir2/")
+
+	// FIXME: this overwrites previous dir1 and dir2 is gone
+	insert("dir1")
+
+	root.Print()
+}
+
+func FilePath(path string) *fs.FilePath {
+	fp, err := fs.NewFilePath(path)
 	check(err)
-	fmt.Println(fp)
+	return fp
+}
 
-	pathtofp := fp.PathToFile()
-	fmt.Println(pathtofp)
-
-	tok := fp.Tokens()
-	fmt.Println(tok)
-
-	filename := fp.FileName()
-	fmt.Println(filename)
+func insert(path string) {
+	_, err := root.InsertFilePath(FilePath(path))
+	check(err)
 }
 
 func check(err error) {

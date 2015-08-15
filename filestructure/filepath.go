@@ -25,16 +25,22 @@ func NewFilePath(path string) (*FilePath, error) {
 	return fp, nil
 }
 
-func NewDirectory(path string) (*FilePath, error) {
+// returns a FilePath that is a directory
+func NewDirectoryPath(path string) (*FilePath, error) {
 	return NewFilePath(path + "/")
 }
 
+// returns the a filepath to the file (excluding the last element)
+// if the filepath is points to a directory then that directory (self) will be returned
+// if an error occurs (should never happen) nil will be returned
 func (fp *FilePath) PathToFile() *FilePath {
+	if fp.isdir { return fp }
 	path, err := NewFilePath(filepath.Dir(fp.filepath))
 	if err != nil { return nil }
 	return path
 }
 
+// splits the file path into separate strings representing each level
 func (fp *FilePath) Tokens() []string {
 	return regexp.MustCompile(`/|\\`).Split(fp.filepath, -1)
 }
